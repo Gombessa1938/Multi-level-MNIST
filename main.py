@@ -9,7 +9,7 @@ from utils import load_model_weight
 
 #data loading
 data = np.load('/Users/joe/Documents/llnl.npz')
-label = torch.from_numpy(data['Q'])
+label = torch.from_numpy(data['Q'].astype('float32'))
 down_sampled_train = torch.from_numpy(np.load('down_sampled_train.npy'))
 concat_train = torch.from_numpy(np.load('concat_train.npy'))
 
@@ -51,4 +51,4 @@ def cycle_train(epoch1,epoch2,epoch3,counter):
 	optim = torch.optim.Adam(model1.parameters(), lr=0.0001)
 	train(model1,loss,optim,down_sampled_train,label,10,128)
 
-cycle_train(50,10,10,counter = 1)
+cycle_train(500,1,1,counter = 1)
