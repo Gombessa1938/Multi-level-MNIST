@@ -26,7 +26,7 @@ def train(input_model,loss,optimizer,datasets,label,epoch,batch_size):
         loss.backward()
         optim.step()
         losses.append(loss.detach().clone().numpy())
-    plt.ylim(-0.1,3.05)
+    #plt.ylim(-0.1,3.05)
     plt.plot(losses)
     #plt.imshow(model.l1.weight.clone().detach().numpy())
     plt.show()
