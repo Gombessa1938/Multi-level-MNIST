@@ -4,31 +4,43 @@ import torch.nn.functional as F
 
 class Large(torch.nn.Module):
   '''
-  take in concat(full size differene image(28x28), downsampled image(14x14))
+  take in concat(full size differene image(32x32), downsampled image(16x16))
 
   '''
   def __init__(self):
     super(Large, self).__init__()
-    self.l1 = nn.Linear(980, 128, bias=False) #28*28 + 14*14  ---> 128, 128 --->10
-    self.l2 = nn.Linear(128, 10, bias=False)
-    self.sm = nn.LogSoftmax(dim=1)
+    self.l1 = nn.Linear(1024+256,256,bias=False)
+    self.l2 = nn.Linear(256, 128, bias=False)
+    self.l3 = nn.Linear(128, 64, bias=False)
+    self.l4 = nn.Linear(64, 32, bias=False)
+    self.l5 = nn.Linear(32, 16, bias=False)
+    self.l6 = nn.Linear(16, 1, bias=False)
+    self.ReLU = nn.ReLU()
   def forward(self, x):
-    x = F.relu(self.l1(x))
-    x = self.l2(x)
-    x = self.sm(x)
+    x = self.ReLU(self.l1(x))
+    x = self.ReLU(self.l2(x))
+    x = self.ReLU(self.l3(x))
+    x = self.ReLU(self.l4(x))
+    x = self.ReLU(self.l5(x))
+    x = self.ReLU(self.l6(x))
     return x
 
 class small(torch.nn.Module):
   '''
-  takes in down sampled image(14x14)
+  takes in down sampled image(16x16)
   '''
   def __init__(self):
     super(small, self).__init__()
-    self.l1 = nn.Linear(14*14, 128, bias=False)  # 196-->128, 128-->10
-    self.l2 = nn.Linear(128, 10, bias=False)
-    self.sm = nn.LogSoftmax(dim=1)
+    self.l1 = nn.Linear(256, 128, bias=False)
+    self.l2 = nn.Linear(128, 64, bias=False)
+    self.l3 = nn.Linear(64, 32, bias=False)
+    self.l4 = nn.Linear(32, 16, bias=False)
+    self.l5 = nn.Linear(16, 1, bias=False)
+    self.ReLU = nn.ReLU()
   def forward(self, x):
-    x = F.relu(self.l1(x))
-    x = self.l2(x)
-    x = self.sm(x)
+    x = self.ReLU(self.l1(x))
+    x = self.ReLU(self.l2(x))
+    x = self.ReLU(self.l3(x))
+    x = self.ReLU(self.l4(x))
+    x = self.ReLU(self.l5(x))
     return x
