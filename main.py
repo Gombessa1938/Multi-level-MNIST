@@ -34,5 +34,23 @@ def cycle_train(epoch1,epoch2,epoch3,counter):
 	loss = nn.NLLLoss(reduction='none')
 	optim = torch.optim.Adam(model1.parameters(), lr=0.0001)
 	train(model1,loss,optim,down_sampled_train,mnist_trainset.targets,epoch3,128)
+ 
+#===============================
 
-cycle_train(50,50,50,counter = 1)
+	load_model_weight(model1,model2,small_to_big=False)
+	loss = nn.NLLLoss(reduction='none')
+	optim = torch.optim.Adam(model1.parameters(), lr=0.0001)
+	train(model1,loss,optim,down_sampled_train,mnist_trainset.targets,10,128)
+
+	model2 = Large()
+	load_model_weight(model1,model2,small_to_big=True)
+	optim = torch.optim.Adam(model2.parameters(), lr=0.001)
+	train(model2,loss,optim,concat_train,mnist_trainset.targets,10,128)
+
+	model1 = small()
+	load_model_weight(model2,model1,small_to_big=False)
+	loss = nn.NLLLoss(reduction='none')
+	optim = torch.optim.Adam(model1.parameters(), lr=0.0001)
+	train(model1,loss,optim,down_sampled_train,mnist_trainset.targets,10,128)
+
+cycle_train(50,10,10,counter = 1)
