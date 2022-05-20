@@ -51,4 +51,4 @@ def cycle_train(epoch1,epoch2,epoch3,counter):
 	optim = torch.optim.Adam(model1.parameters(), lr=0.0001)
 	train(model1,loss,optim,down_sampled_train,label,10,128)
 
-cycle_train(50,50,50,counter = 1)
+cycle_train(50,8,50,counter = 1)
