@@ -27,7 +27,7 @@ def cycle_train(epoch1,epoch2,epoch3,counter):
 
 	model2 = Large()
 	load_model_weight(model1,model2,small_to_big=True)
-	optim = torch.optim.Adam(model2.parameters(), lr=0.001)
+	optim = torch.optim.Adam(model2.parameters(), lr=0.0001)
 	train(model2,loss,optim,concat_train,label,epoch2,128)
 
 	model1 = small()
@@ -43,7 +43,7 @@ def cycle_train(epoch1,epoch2,epoch3,counter):
 
 	model2 = Large()
 	load_model_weight(model1,model2,small_to_big=True)
-	optim = torch.optim.Adam(model2.parameters(), lr=0.001)
+	optim = torch.optim.Adam(model2.parameters(), lr=0.0001)
 	train(model2,loss,optim,concat_train,label,10,128)
 
 	model1 = small()
