@@ -8,9 +8,9 @@ from train import train
 from utils import load_model_weight
 
 #data loading
-mnist_trainset = datasets.MNIST(root='./data', train=True, download=True, transform=tf.ToTensor())
-down_sampled_train = torch.from_numpy(np.load('down_sampled_train.npy'))
-concat_train = torch.from_numpy(np.load('concat_train.npy'))
+mnist_trainset = datasets.MNIST(root='/Users/joe/Documents/mnist_data/data', train=True, download=True, transform=tf.ToTensor())
+down_sampled_train = torch.from_numpy(np.load('/Users/joe/Documents/main_branch/down_sampled_train.npy'))
+concat_train = torch.from_numpy(np.load('/Users/joe/Documents/main_branch/concat_train.npy'))
 
 def cycle_train(epoch1,epoch2,epoch3,cycle):
     '''
