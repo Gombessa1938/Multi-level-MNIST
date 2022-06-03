@@ -41,5 +41,5 @@ def cycle_train(epoch1,epoch2,epoch3,cycle):
         optim = torch.optim.Adam(model2.parameters(), lr=0.001)
         train(model2,loss,optim,concat_train,mnist_trainset.targets,epoch2,128)
 
-cycle_train(100,50,20,cycle=2)
+cycle_train(50,50,50,cycle=2)
 
