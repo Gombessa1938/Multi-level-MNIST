@@ -10,20 +10,16 @@ def load_model_weight(model1,model2,small_to_big = True):
 		model1_l1_weight = model1.l1.weight.clone().detach()
 		model1_l2_weight = model1.l2.weight.clone().detach()
 		model1_l3_weight = model1.l3.weight.clone().detach()
+
+		model2_l1_weight = model2.l1.weight.clone().detach()
+		model2_l2_weight = model2.l2.weight.clone().detach()
 		#print(model1.l1.weight.grad.cpu().detach().numpy())
+
+		model2_l1_weight[128:,784:] = model1_l1_weight		
+		model2_l2_weight[:,128:] = model1_l2_weight
 		
-		#concat first layer weight
-		zero = torch.zeros(128,784)
-		concat_weight_second_half = torch.zeros(128,980)
-		concat_weight_first_half = torch.cat((zero,model1_l1_weight),dim=1)
-		
-		#concat second layer weight
-		concat = torch.cat((concat_weight_second_half,concat_weight_first_half),dim=0)
-		l2_zero = torch.zeros(20,128)
-		concat_l2 = torch.cat((l2_zero,model1_l2_weight),dim=1)
-		
-		model2.l1.weight = torch.nn.Parameter(concat)
-		model2.l2.weight = torch.nn.Parameter(concat_l2)
+		model2.l1.weight = torch.nn.Parameter(model2_l1_weight)
+		model2.l2.weight = torch.nn.Parameter(model2_l2_weight)
 		model2.l3.weight = torch.nn.Parameter(model1_l3_weight)
 	else:
 		l1 = model1.l1.weight.clone().detach()

@@ -8,7 +8,7 @@ class Large(torch.nn.Module):
   '''
   def __init__(self):
     super(Large, self).__init__()
-    self.l1 = nn.Linear(980, 256, bias=False) #28*28 + 14*14  ---> 128, 128 --->10
+    self.l1 = nn.Linear(980, 256, bias=False) #980-256
     self.l2 = nn.Linear(256, 20, bias=False)
     self.l3 = nn.Linear(20,10,bias=False)
     self.sm = nn.LogSoftmax(dim=1)
@@ -25,7 +25,7 @@ class small(torch.nn.Module):
   '''
   def __init__(self):
     super(small, self).__init__()
-    self.l1 = nn.Linear(14*14, 128, bias=False)  # 196-->128, 128-->10
+    self.l1 = nn.Linear(14*14, 128, bias=False)  #196 - 128
     self.l2 = nn.Linear(128, 20, bias=False)
     self.l3 = nn.Linear(20,10,bias=False)
     self.sm = nn.LogSoftmax(dim=1)
