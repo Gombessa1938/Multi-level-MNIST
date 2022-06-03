@@ -8,7 +8,7 @@ class Large(torch.nn.Module):
   '''
   def __init__(self):
     super(Large, self).__init__()
-    self.l1 = nn.Linear(980, 256, bias=False) #980-256
+    self.l1 = nn.Linear(980, 256, bias=False) #980-256,  28*28(dif image) + 14*14 = 980
     self.l2 = nn.Linear(256, 20, bias=False)
     self.l3 = nn.Linear(20,10,bias=False)
     self.sm = nn.LogSoftmax(dim=1)
