@@ -1,6 +1,5 @@
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
 
 def load_model_weight(model1,model2,small_to_big = True,first = False):
 	'''
@@ -23,14 +22,12 @@ def load_model_weight(model1,model2,small_to_big = True,first = False):
 		if first:
 			model2_weight = torch.zeros_like(model2_weight)
 		if small_to_big==True:
-			model2_weight[xx-x:,yy-y:] = model1_weight
+			model2_weight[xx-x:,yy-y:] = model1_weight #load weight
 		else:
 			model2_weight = model1_weight[x-xx:,y-yy:]
 		model2_weight_list[counter] = model2_weight
 		counter +=1
 
-	model2.l1.weight = torch.nn.Parameter(model2_weight_list[0])
-	model2.l2.weight = torch.nn.Parameter(model2_weight_list[1])
-	model2.l3.weight = torch.nn.Parameter(model2_weight_list[2])
-	model2.l4.weight = torch.nn.Parameter(model2_weight_list[3])
-	model2.l5.weight = torch.nn.Parameter(model2_weight_list[4])
+	#load weight to model
+	for i in range(len(model2.linears)):
+		model2.linears[i].weight = torch.nn.Parameter(model2_weight_list[i])
