@@ -2,33 +2,49 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-def load_model_weight(model1,model2,small_to_big = True):
+def load_model_weight(model1,model2,small_to_big = True,first = False):
 	'''
 	Load layer weight from model1 to model2
 	'''
 	if small_to_big == True:
-		model1_l1_weight = model1.l1.weight.clone().detach()
-		model1_l2_weight = model1.l2.weight.clone().detach()
-		model1_l3_weight = model1.l3.weight.clone().detach()
+		#adding each model layer weight into lists
+		model1_weight_list = []
+		for name, param in model1.named_parameters():
+			model1_weight_list.append(param.clone().detach())
+		model2_weight_list = []
+		for name,param in model2.named_parameters():
+			model2_weight_list.append(param.clone().detach())
 
-		model2_l1_weight = model2.l1.weight.clone().detach()
-		model2_l2_weight = model2.l2.weight.clone().detach()
-		#print(model1.l1.weight.grad.cpu().detach().numpy())
-
-		model2_l1_weight[128:,784:] = model1_l1_weight		
-		model2_l2_weight[:,128:] = model1_l2_weight
-		
-		model2.l1.weight = torch.nn.Parameter(model2_l1_weight)
-		model2.l2.weight = torch.nn.Parameter(model2_l2_weight)
-		model2.l3.weight = torch.nn.Parameter(model1_l3_weight)
+		#loading model1 weight into model2 weight block
+		counter = 0
+		for model1_weight, model2_weight in zip(model1_weight_list,model2_weight_list):
+			x,y = model1_weight.shape[0],model1_weight.shape[1]
+			xx,yy = model2_weight.shape[0],model2_weight.shape[1]
+			if first:
+				model2_weight = torch.zeros_like(model2_weight)
+			model2_weight[xx-x:,yy-y:] = model1_weight
+			model2_weight_list[counter] = model2_weight
+			counter +=1
+  
 	else:
-		l1 = model1.l1.weight.clone().detach()
-		l2 = model1.l2.weight.clone().detach()
-		new_l1_weight = l1[128:,784:980]
-		new_l2_weight =  l2[:,128:]
+     	#adding each model layer weight into lists
+		model1_weight_list = []
+		for name, param in model1.named_parameters():
+			model1_weight_list.append(param.clone().detach())
+		model2_weight_list = []
+		for name,param in model2.named_parameters():
+			model2_weight_list.append(param.clone().detach())
+		#loading model1 weight into model2 weight block
+		counter = 0
+		for model1_weight, model2_weight in zip(model1_weight_list,model2_weight_list):
+			x,y = model1_weight.shape[0],model1_weight.shape[1]
+			xx,yy = model2_weight.shape[0],model2_weight.shape[1]
+			model2_weight = model1_weight[x-xx:,y-yy:]
+			model2_weight_list[counter] = model2_weight
+			counter +=1
 
-		model_new_small = model2		
-		model_new_small.l1.weight = torch.nn.Parameter(new_l1_weight)
-		model_new_small.l2.weight = torch.nn.Parameter(new_l2_weight)
-		model_new_small.l3.weight = torch.nn.Parameter(model1.l3.weight.clone().detach())
+	model2.l1.weight = torch.nn.Parameter(model2_weight_list[0])
+	model2.l2.weight = torch.nn.Parameter(model2_weight_list[1])
+	model2.l3.weight = torch.nn.Parameter(model2_weight_list[2])
+
 
