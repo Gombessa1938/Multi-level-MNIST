@@ -15,7 +15,6 @@ def train(input_model,loss,optimizer,datasets,label,epoch,batch_size):
         flat_size = data.shape[1]*data.shape[1]
     else:
         flat_size = data.shape[1]
-    
     for i in range(epoch):
         samp = np.random.randint(0, data.shape[0], size=(batch_size)) 
         X = data[samp].reshape((-1, flat_size))
