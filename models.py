@@ -3,35 +3,32 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 class Large(torch.nn.Module):
-  '''
-  take in concat(full size differene image(28x28), downsampled image(14x14))
-  '''
-  def __init__(self):
-    super(Large, self).__init__()
-    self.l1 = nn.Linear(980, 256, bias=False) #980-256,  28*28(dif image) + 14*14 = 980
-    self.l2 = nn.Linear(256, 20, bias=False)
-    self.l3 = nn.Linear(20,10,bias=False)
-    self.sm = nn.LogSoftmax(dim=1)
-  def forward(self, x):
-    x = F.relu(self.l1(x))
-    x = self.l2(x)
-    x = self.l3(x)
-    x = self.sm(x)
+  def __init__(self,image_large_size=28*28,coarse_size=14*14,l=[256,128,64,16]):
+    super(Large,self).__init__()
+    self.linears = nn.ModuleList()
+    self.linears.append(nn.Linear(image_large_size+coarse_size,coarse_size,bias=False))
+    for i in range(len(l)-1):
+      self.linears.append(nn.Linear(l[i],l[i+1],bias=False))
+    self.linears.append(nn.Linear(l[-1],10,bias=False))
+    self.ReLU = nn.ReLU()
+    
+  def forward(self,x):
+    for layers in self.linears:
+      x = self.ReLU(layers(x))
     return x
-
+    
+    
 class small(torch.nn.Module):
-  '''
-  takes in down sampled image(14x14)
-  '''
-  def __init__(self):
-    super(small, self).__init__()
-    self.l1 = nn.Linear(14*14, 128, bias=False)  #196 - 128
-    self.l2 = nn.Linear(128, 20, bias=False)
-    self.l3 = nn.Linear(20,10,bias=False)
-    self.sm = nn.LogSoftmax(dim=1)
-  def forward(self, x):
-    x = F.relu(self.l1(x))
-    x = self.l2(x)
-    x = self.l3(x)
-    x = self.sm(x)
+  def __init__(self,coarse_size=14*14,l=[128,64,32,16]):
+    super(small,self).__init__()
+    self.linears = nn.ModuleList()
+    self.linears.append(nn.Linear(coarse_size,coarse_size//2,bias=False))
+    for i in range(len(l)-1):
+      self.linears.append(nn.Linear(l[i],l[i+1],bias=False))
+    self.linears.append(nn.Linear(l[-1],10,bias=False))
+    self.ReLU = nn.ReLU()
+    
+  def forward(self,x):
+    for layers in self.linears:
+      x = self.ReLU(layers(x))
     return x
