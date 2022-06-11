@@ -3,13 +3,15 @@ import numpy as np
 import torch
 from matplotlib import pyplot as plt
 
-def train(input_model,loss,optimizer,datasets,label,epoch,batch_size):
+def train(input_model,loss,optimizer,datasets,label,epoch,batch_size,device):
     model = input_model
+    model = model.to(device)
     loss_function = loss
     optim = optimizer
     batch_size = batch_size
     losses= []
     data = datasets
+    data = data.to(device)
 
     if data.shape[1] == 16:
         flat_size = data.shape[1]*data.shape[1]
