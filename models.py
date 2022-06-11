@@ -2,6 +2,16 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+'''
+args:
+  image fine size
+  image coarse size (can be calculated by refine level)
+  refine level
+  num_layers
+  
+'''
+
+
 class Large(torch.nn.Module):
   '''
   take in concat(full size differene image(32x32), downsampled image(16x16))

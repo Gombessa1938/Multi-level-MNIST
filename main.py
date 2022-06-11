@@ -20,8 +20,9 @@ def cycle_train(epoch1,epoch2,epoch3,cycle):
     '''		
     model1 = small()
     model2 = Large()
+    
     for i in range(cycle):
-        #load_model_weight(model1,model2,small_to_big=False)
+        load_model_weight(model1,model2,small_to_big=False)
         loss = nn.MSELoss()
         optim = torch.optim.Adam(model1.parameters(), lr=0.0001)
         train(model1,loss,optim,down_sampled_train,label,epoch1,128)
@@ -36,4 +37,4 @@ def cycle_train(epoch1,epoch2,epoch3,cycle):
         optim = torch.optim.Adam(model1.parameters(), lr=0.0001)
         train(model1,loss,optim,down_sampled_train,label,epoch3,128)
 
-cycle_train(100,100,50,cycle=1)
+cycle_train(100,100,100,cycle=2)
