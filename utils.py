@@ -1,5 +1,22 @@
 import torch
 import torch.nn as nn
+import json
+
+
+class OurObject:
+    def __init__(self, /, **kwargs):
+        self.__dict__.update(kwargs)
+    def __repr__(self):
+        keys = sorted(self.__dict__)
+        items = ("{}={!r}".format(k, self.__dict__[k]) for k in keys)
+        return "{}({})".format(type(self).__name__, ", ".join(items))
+    def __eq__(self, other):
+        return self.__dict__ == other.__dict__
+f = open('config.json')
+config = json.load(f)
+x = json.dumps(config)
+config = json.loads(x, object_hook=lambda d: OurObject(**d))
+
 
 def load_model_weight(model1,model2,small_to_big = True,first = False):
 	'''
