@@ -1,20 +1,6 @@
 import torch
 import torch.nn as nn
-import json
-
-class OurObject:
-    def __init__(self, /, **kwargs):
-        self.__dict__.update(kwargs)
-    def __repr__(self):
-        keys = sorted(self.__dict__)
-        items = ("{}={!r}".format(k, self.__dict__[k]) for k in keys)
-        return "{}({})".format(type(self).__name__, ", ".join(items))
-    def __eq__(self, other):
-        return self.__dict__ == other.__dict__
-    
-f = open('config.json')
-x= json.dumps(json.load(f))
-config = json.loads(x, object_hook=lambda d: OurObject(**d))
+import config
 
 def load_model_weight(model1,model2,small_to_big = True,first = False):
 	'''
@@ -46,3 +32,25 @@ def load_model_weight(model1,model2,small_to_big = True,first = False):
 	#load weight to model
 	for i in range(len(model2.linears)):
 		model2.linears[i].weight = nn.Parameter(model2_weight_list[i])
+
+def make_layer_input_list(config):
+	level = config.model_layer_level
+	image_coarse = config.image_coarse
+
+	layer_large = []
+	input_size = image_coarse*image_coarse
+	for i in range(level-1):
+		layer_large.append(input_size)
+		if i == level -3:
+			input_size = input_size //4
+		else:
+			input_size = input_size//2
+
+	layer_small = [0]*len(layer_large)
+	for i in range(len(layer_large)):
+		if i == len(layer_large)-1:
+			layer_small[i] = layer_large[i]
+		else:
+			layer_small[i] = layer_large[i]//2
+   
+	return layer_large,layer_small

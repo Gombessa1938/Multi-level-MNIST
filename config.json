@@ -1,8 +1,0 @@
-{
-    "device":"cpu",
-    "image_full":32,
-    "image_coarse":16,
-    "model_layer_level":5,
-    "data_path":"/Users/joe/Documents/llnl.npz",
-    "cycle":2
-}
