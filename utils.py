@@ -2,7 +2,6 @@ import torch
 import torch.nn as nn
 import json
 
-
 class OurObject:
     def __init__(self, /, **kwargs):
         self.__dict__.update(kwargs)
@@ -12,11 +11,10 @@ class OurObject:
         return "{}({})".format(type(self).__name__, ", ".join(items))
     def __eq__(self, other):
         return self.__dict__ == other.__dict__
+    
 f = open('config.json')
-config = json.load(f)
-x = json.dumps(config)
+x= json.dumps(json.load(f))
 config = json.loads(x, object_hook=lambda d: OurObject(**d))
-
 
 def load_model_weight(model1,model2,small_to_big = True,first = False):
 	'''
@@ -47,4 +45,4 @@ def load_model_weight(model1,model2,small_to_big = True,first = False):
 
 	#load weight to model
 	for i in range(len(model2.linears)):
-		model2.linears[i].weight = torch.nn.Parameter(model2_weight_list[i])
+		model2.linears[i].weight = nn.Parameter(model2_weight_list[i])
