@@ -12,8 +12,9 @@ def train(input_model,loss,optimizer,datasets,label,epoch,batch_size,device,loss
     losses= []
     data = datasets
     data = data.to(device)
-
     if data.shape[1] == 16:
+        flat_size = data.shape[1]*data.shape[1]
+    elif data.shape[1] == 8:
         flat_size = data.shape[1]*data.shape[1]
     else:
         flat_size = data.shape[1]

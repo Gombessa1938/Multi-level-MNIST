@@ -39,7 +39,8 @@ def make_layer_input_list(config):
     Example:
         level=5:
         large = [256,128,64,16]
-        small = [128,64,32,16]
+        medium = [128,64,32,16]
+        small = [64,32,16,16]
     '''
     level = config.model_layer_level
     image_coarse = config.image_coarse
@@ -53,11 +54,18 @@ def make_layer_input_list(config):
         else:
             input_size = input_size//2
 
-    layer_small = [0]*len(layer_large)
+    layer_medium= [0]*len(layer_large)
     for i in range(len(layer_large)):
         if i == len(layer_large)-1:
+            layer_medium[i] = layer_large[i]
+        else:
+            layer_medium[i] = layer_large[i]//2
+   
+    layer_small = [0]*len(layer_medium)
+    for i in range(len(layer_small)):
+        if i ==len(layer_large)-1:
             layer_small[i] = layer_large[i]
         else:
-            layer_small[i] = layer_large[i]//2
+            layer_small[i] = layer_medium[i]//2
    
-    return layer_large,layer_small
+    return layer_large,layer_medium,layer_small
