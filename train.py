@@ -3,7 +3,7 @@ import numpy as np
 import torch
 from matplotlib import pyplot as plt
 
-def train(input_model,loss,optimizer,datasets,label,epoch,batch_size,device):
+def train(input_model,loss,optimizer,datasets,label,epoch,batch_size,device,losses):
     model = input_model
     model = model.to(device)
     loss_function = loss
@@ -27,9 +27,4 @@ def train(input_model,loss,optimizer,datasets,label,epoch,batch_size,device):
         loss.backward()
         optim.step()
         losses.append(loss.detach().clone().numpy())
-    print(losses[-1])
-    #plt.ylim(-0.1,3.05)
-    plt.plot(losses)
-    #plt.imshow(model.l1.weight.clone().detach().numpy())
-    plt.show()
-    #plot weight
+    return losses
