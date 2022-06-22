@@ -21,16 +21,17 @@ def cycle_train(epoch1,epoch2,epoch3,cycle):
     model1 = small()
     model2 = Large()
     position = []
-    l,r = 0,50
+    l,r = 0,epoch1
   
     load_model_weight(model1,model2,small_to_big=False)
-    loss = nn.CrossEntropyLoss()#nn.NLLLoss(reduction='none')#nn.MSELoss()#
+    loss = nn.CrossEntropyLoss()
     optim = torch.optim.Adam(model1.parameters(), lr=0.0001)
     res = train(model1,loss,optim,down_sampled_train,mnist_trainset.targets,epoch1,128)
     position  = np.arange(l,r)
     plt.plot(position,res,'b')
-    l +=50
-    r +=50
+    l +=epoch1
+    r +=epoch2
+    
     for i in range(cycle):
         model2 = Large()
         if i == 0:
@@ -42,22 +43,23 @@ def cycle_train(epoch1,epoch2,epoch3,cycle):
         res = train(model2,loss,optim,concat_train,mnist_trainset.targets,epoch2,128)
         position  = np.arange(l,r)
         plt.plot(position,res,'g')
-        l +=50
-        r +=50
-
+        l +=epoch2
+        r +=epoch1
+        
         model1 = small()
         load_model_weight(model2,model1,small_to_big=False)
         optim = torch.optim.Adam(model1.parameters(), lr=0.0001)
-        res = train(model1,loss,optim,down_sampled_train,mnist_trainset.targets,epoch3,128)
+        res = train(model1,loss,optim,down_sampled_train,mnist_trainset.targets,epoch1,128)
         position = np.arange(l,r)
         plt.plot(position,res,'b')
-        l +=50
-        r +=50
+        l +=epoch1
+        r +=epoch2
+        
     plt.ylabel('accuracy')
     plt.plot(0,0,'b',label='small network')
     plt.plot(0,0,'g',label='larger network')
     plt.legend(loc='lower right')    
     plt.show()
 
-cycle_train(50,50,50,cycle=3)
+cycle_train(40,50,50,cycle=3)
 
