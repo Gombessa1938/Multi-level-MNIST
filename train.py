@@ -2,8 +2,8 @@ from pyexpat import model
 import numpy as np 
 import torch
 from matplotlib import pyplot as plt
-torch.manual_seed(42)
-def train(input_model,loss,optimizer,datasets,label,epoch,batch_size):
+
+def train(input_model,loss,optimizer,datasets,label,epoch,batch_size,device,losses):
     model = input_model
     loss_function = loss
     optim = optimizer
@@ -11,7 +11,10 @@ def train(input_model,loss,optimizer,datasets,label,epoch,batch_size):
     accuracies= []
     data = datasets
 
-    if data.shape[1] == 14:
+    data = data.to(device)
+    if data.shape[1] == 16:
+        flat_size = data.shape[1]*data.shape[1]
+    elif data.shape[1] == 8:
         flat_size = data.shape[1]*data.shape[1]
     else:
         flat_size = data.shape[1]

@@ -5,4 +5,4 @@ image_coarse = 16
 model_layer_level=5
 data_path = " "
 cycle = 2
-loss = nn.MSELoss()
+loss = nn.CrossEntropyLoss()#nn.MSELoss()
