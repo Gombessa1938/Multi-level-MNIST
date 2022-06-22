@@ -8,7 +8,7 @@ def train(input_model,loss,optimizer,datasets,label,epoch,batch_size):
     loss_function = loss
     optim = optimizer
     batch_size = batch_size
-    losses,accuracies = [],[]
+    accuracies= []
     data = datasets
 
     if data.shape[1] == 14:
@@ -28,11 +28,6 @@ def train(input_model,loss,optimizer,datasets,label,epoch,batch_size):
         loss = loss.mean()
         loss.backward()
         optim.step()
-        loss,accuracy = loss.item(),accuracy.item()
-        losses.append(loss)
+        accuracy = accuracy.item()
         accuracies.append(accuracy)
-    plt.ylim(-0.1,1.05)
-    plt.plot(accuracies)
-    #plt.imshow(model.l1.weight.clone().detach().numpy())
-    plt.show()
-    #plot weight
+    return accuracies

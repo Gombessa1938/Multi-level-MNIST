@@ -19,8 +19,8 @@ def load_model_weight(model1,model2,small_to_big = True,first = False):
 	for model1_weight, model2_weight in zip(model1_weight_list,model2_weight_list):
 		x,y = model1_weight.shape[0],model1_weight.shape[1]
 		xx,yy = model2_weight.shape[0],model2_weight.shape[1]
-		if first:
-			model2_weight = torch.zeros_like(model2_weight)
+		#if first:
+		model2_weight = torch.zeros_like(model2_weight)
 		if small_to_big==True:
 			model2_weight[xx-x:,yy-y:] = model1_weight #load weight
 		else:
