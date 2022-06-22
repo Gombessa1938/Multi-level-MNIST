@@ -38,7 +38,6 @@ class medium(torch.nn.Module):
     return x
   
   
-  
 class small(torch.nn.Module):
   def __init__(self,coarse_size=64,l=[32,32,16,16]):
     super(small,self).__init__()
