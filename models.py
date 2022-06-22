@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
+torch.manual_seed(42)
 class Large(torch.nn.Module):
   def __init__(self,image_large_size=28*28,coarse_size=14*14,l=[14*14,128,64,16]):
     super(Large,self).__init__()
@@ -11,7 +11,7 @@ class Large(torch.nn.Module):
       self.linears.append(nn.Linear(l[i],l[i+1],bias=False))
     self.linears.append(nn.Linear(l[-1],10,bias=False))
     self.ReLU = nn.ReLU()
-    self.sm = nn.LogSoftmax(dim=1)
+    self.sm = nn.Softmax(dim=1)#nn.LogSoftmax(dim=1)
   def forward(self,x):
     for i,layers in enumerate(self.linears):
       x = layers(x)
@@ -31,7 +31,7 @@ class small(torch.nn.Module):
       self.linears.append(nn.Linear(l[i],l[i+1],bias=False))
     self.linears.append(nn.Linear(l[-1],10,bias=False))
     self.ReLU = nn.ReLU()
-    self.sm = nn.LogSoftmax(dim=1)
+    self.sm = nn.Softmax(dim=1)#nn.LogSoftmax(dim=1)
   def forward(self,x):
     for i,layers in enumerate(self.linears):
       x = layers(x)
