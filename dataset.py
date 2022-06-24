@@ -25,9 +25,9 @@ print(data.shape)
 down_sampled_train = torch.zeros(60000,16,16)
 for i in tqdm(range(60000)):
   img = data[i].reshape(32,32)
-  img_c = np.array(Image.fromarray(img).resize((16, 16), Image.LANCZOS))
-  img_c = img_c.astype('float32')
-  down_sampled_train[i] = torch.from_numpy(img_c)  
+  img_c_ = np.array(Image.fromarray(img).resize((16, 16), Image.LANCZOS))
+  img_c_ = img_c_.astype('float32')
+  down_sampled_train[i] = torch.from_numpy(img_c_)  
 
 #making difference image
 difference_train = torch.zeros(60000,32,32)
@@ -60,8 +60,9 @@ for i in tqdm(range(60000)):
   first = data[i].reshape(32,32)
   small = down_sampled_train_small[i].numpy()
   up_sample = np.array(Image.fromarray(small).resize((16, 16), Image.LANCZOS)) #upsample image
-  first = first.astype('float32')
+  first = img_c_#first.astype('float32')
   up_sample = up_sample.astype('float32')
+  difference_train_medium[i] = torch.from_numpy(first - up_sample)
   
 concat_train_medium = torch.zeros(60000,16*16 + 8*8)
 for i in tqdm(range(60000)):
