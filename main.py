@@ -78,7 +78,12 @@ def cycle_train(epoch1,epoch2,epoch3,cycle,loss,res):
         plt.plot(position,res,'b')        
         l +=50
         r +=50
-        
+    plt.ylabel('loss')
+    plt.xlabel('iterations')
+    plt.plot(0,0,'b',label='small network')
+    plt.plot(0,0,'g', label = 'medium network')
+    plt.plot(0,0,'r',label='large network')
+    plt.legend(loc='upper right')
     plt.show()
     return res
       
