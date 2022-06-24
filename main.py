@@ -74,15 +74,16 @@ def cycle_train(epoch1,epoch2,epoch3,cycle,loss,res):
         l +=50
         r +=50
         model1 = small()
-        load_model_weight(model2,model1,small_to_big=False,first= True)
-        optim = torch.optim.Adam(model1.parameters(), lr=0.0001)
-        res = train(model1,loss,optim,down_sampled_train_small,label,epoch3,bs,device,res)
+        # load_model_weight(model2,model1,small_to_big=False,first= True)
+        # optim = torch.optim.Adam(model1.parameters(), lr=0.0001)
+        # res = train(model1,loss,optim,down_sampled_train_small,label,epoch3,bs,device,res)
         
-        position = np.arange(l,r)
-        plt.plot(position,res,'b')        
-        l +=50
-        r +=50
+        # position = np.arange(l,r)
+        # plt.plot(position,res,'b')        
+        # l +=50
+        # r +=50
     plt.ylabel('accuracy')
+    plt.xlabel('iterations')
     plt.plot(0,0,'b',label='small network')
     plt.plot(0,0,'g', label = 'medium network')
     plt.plot(0,0,'r',label='large network')
