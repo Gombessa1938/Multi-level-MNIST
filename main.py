@@ -61,5 +61,5 @@ def cycle_train(epoch1,epoch2,epoch3,cycle):
     plt.legend(loc='lower right')    
     plt.show()
 
-cycle_train(40,50,50,cycle=3)
+cycle_train(50,50,50,cycle=3)
 
