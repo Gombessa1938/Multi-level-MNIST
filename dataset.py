@@ -4,9 +4,9 @@ import torchvision.datasets as datasets
 from PIL import Image
 from tqdm import tqdm
 import numpy as np 
+from matplotlib import pyplot as plt
 
 mnist_trainset = datasets.MNIST(root='./data', train=True, download=True, transform=None)
-
 
 mnist_upsample = torch.zeros(60000,32,32)
 for i in tqdm(range(60000)):
@@ -14,9 +14,6 @@ for i in tqdm(range(60000)):
   img_up = np.array(Image.fromarray(img).resize((32,32),Image.LANCZOS))
   img_up = img_up.astype('float32')
   mnist_upsample[i] = torch.from_numpy(img_up)
-
-
-
 
 #data = np.load('/Users/joe/Documents/llnl_branch/llnl.npz')
 data = mnist_upsample.numpy()
@@ -29,6 +26,9 @@ for i in tqdm(range(60000)):
   img_c_ = img_c_.astype('float32')
   down_sampled_train[i] = torch.from_numpy(img_c_)  
 
+img_small = down_sampled_train[0]
+plt.imshow(img_small)
+plt.show()
 #making difference image
 difference_train = torch.zeros(60000,32,32)
 for i in tqdm(range(60000)):
@@ -55,6 +55,8 @@ for i in tqdm(range(60000)):
   img_c = img_c.astype('float32')
   down_sampled_train_small[i] = torch.from_numpy(img_c) 
   
+
+  
 difference_train_medium = torch.zeros(60000,16,16)
 for i in tqdm(range(60000)):
   first = data[i].reshape(32,32)
@@ -63,6 +65,10 @@ for i in tqdm(range(60000)):
   first = img_c_#first.astype('float32')
   up_sample = up_sample.astype('float32')
   difference_train_medium[i] = torch.from_numpy(first - up_sample)
+
+img_small = difference_train[0]
+plt.imshow(img_small)
+plt.show()
   
 concat_train_medium = torch.zeros(60000,16*16 + 8*8)
 for i in tqdm(range(60000)):
@@ -75,6 +81,8 @@ for i in tqdm(range(60000)):
   concat_train_large[i] = torch.cat((difference_train[i].reshape(32*32,),concat_train_medium[i].reshape(16*16+8*8,))) 
 
 
-np.save('mnist_concat_train_medium.npy',concat_train_medium)
-np.save('mnist_down_sampled_train_small',down_sampled_train_small)
-np.save('mnist_concat_train_large.npy',concat_train_large)
+# np.save('mnist_concat_train_medium.npy',concat_train_medium)
+# np.save('mnist_down_sampled_train_small',down_sampled_train_small)
+# np.save('mnist_concat_train_large.npy',concat_train_large)
+
+
