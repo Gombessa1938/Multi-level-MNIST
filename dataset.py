@@ -18,6 +18,7 @@ for i in tqdm(range(60000)):
 #data = np.load('/Users/joe/Documents/llnl_branch/llnl.npz')
 data = mnist_upsample.numpy()
 print(data.shape)
+
 #making downsampled image
 down_sampled_train = torch.zeros(60000,32,32)
 for i in tqdm(range(60000)):
@@ -37,7 +38,7 @@ for i in tqdm(range(60000)):
   up_sample = np.array(Image.fromarray(small).resize((64, 64), Image.BICUBIC)) #upsample image
   first = first.astype('float32')
   up_sample = up_sample.astype('float32')
-  difference_train[i] = torch.from_numpy(first - up_sample)
+  difference_train[i] = torch.from_numpy(first)# - up_sample)
 
 #concat difference image and coarse iamge 
 concat_train = torch.zeros(60000,64*64 + 32*32)
@@ -61,16 +62,13 @@ for i in tqdm(range(60000)):
   
 difference_train_medium = torch.zeros(60000,32,32)
 for i in tqdm(range(60000)):
-  first = data[i].reshape(64,64)
+  #first = data[i].reshape(64,64)
   small = down_sampled_train_small[i].numpy()
   up_sample = np.array(Image.fromarray(small).resize((32, 32), Image.LANCZOS)) #upsample image
   first = img_c_#first.astype('float32')
   up_sample = up_sample.astype('float32')
-  difference_train_medium[i] = torch.from_numpy(first - up_sample)
+  difference_train_medium[i] = torch.from_numpy(down_sampled_train[i].numpy())# - up_sample)
 
-# img_small = difference_train[0]
-# plt.imshow(img_small)
-# plt.show()
   
 concat_train_medium = torch.zeros(60000,32*32 + 16*16)
 for i in tqdm(range(60000)):
@@ -83,8 +81,8 @@ for i in tqdm(range(60000)):
   concat_train_large[i] = torch.cat((difference_train[i].reshape(64*64,),concat_train_medium[i].reshape(32*32+16*16,))) 
 
 
-# np.save('mnist_concat_train_medium_64.npy',concat_train_medium)
-# np.save('mnist_down_sampled_train_small_64',down_sampled_train_small)
-# np.save('mnist_concat_train_large_64.npy',concat_train_large)
+np.save('mnist_concat_train_medium_64_no_diff.npy',concat_train_medium)
+np.save('mnist_down_sampled_train_small_64_no_diff.npy',down_sampled_train_small)
+np.save('mnist_concat_train_large_64_no_diff.npy',concat_train_large)
 
 

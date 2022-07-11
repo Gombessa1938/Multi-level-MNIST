@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import config 
 from utils import make_layer_input_list
-
+torch.manual_seed(42)
 layer_large,layer_medium,layer_small = make_layer_input_list(config)
 
 

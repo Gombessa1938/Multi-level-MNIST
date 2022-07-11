@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
-import config
 torch.manual_seed(42)
+
 def load_model_weight(model1,model2,small_to_big = True,first = False):
     '''
     Load layer weight from model1 to model2
@@ -9,10 +9,10 @@ def load_model_weight(model1,model2,small_to_big = True,first = False):
     # if small_to_big == True:
     #adding each model layer weight into lists
     model1_weight_list = []
-    for name, param in model1.named_parameters():
+    for _, param in model1.named_parameters():
         model1_weight_list.append(param.clone().detach())
     model2_weight_list = []
-    for name,param in model2.named_parameters():
+    for _,param in model2.named_parameters():
         model2_weight_list.append(param.clone().detach())
 
     #loading model1 weight into model2 weight block

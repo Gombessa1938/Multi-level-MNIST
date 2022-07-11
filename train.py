@@ -2,7 +2,7 @@ from pyexpat import model
 import numpy as np 
 import torch
 from matplotlib import pyplot as plt
-
+torch.manual_seed(42)
 def train(input_model,loss,optimizer,datasets,label,epoch,batch_size,device,losses):
     model = input_model
     loss_function = loss
