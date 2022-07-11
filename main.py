@@ -16,9 +16,9 @@ from matplotlib import pyplot as plt
 mnist_trainset = datasets.MNIST(root='/Users/joe/Documents/mnist_data/data', train=True, download=True, transform=tf.ToTensor())
 label = mnist_trainset.targets
 
-down_sampled_train_small = torch.from_numpy(np.load('/Users/joe/Documents/mnist_branch/mnist_down_sampled_train_small.npy'))
-concat_train_medium = torch.from_numpy(np.load('/Users/joe/Documents/mnist_branch/mnist_concat_train_medium.npy'))
-concat_train_large = torch.from_numpy(np.load('/Users/joe/Documents/mnist_branch/mnist_concat_train_large.npy'))
+down_sampled_train_small = torch.from_numpy(np.load('/Users/joe/Documents/mnist_data_64/mnist_down_sampled_train_small_64.npy'))
+concat_train_medium = torch.from_numpy(np.load('/Users/joe/Documents/mnist_data_64/mnist_concat_train_medium_64.npy'))
+concat_train_large = torch.from_numpy(np.load('/Users/joe/Documents/mnist_data_64/mnist_concat_train_large_64.npy'))
 device = config.device
 loss = config.loss
 
