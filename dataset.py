@@ -31,4 +31,4 @@ for i in tqdm(range(60000)):
   concat_train[i] = torch.cat((difference_train[i].reshape(28*28,),down_sampled_train[i].reshape(14*14,)))
 
 np.save('concat_train.npy',concat_train)
-np.save('down_sampled_train',down_sampled_train)
+np.save('down_sampled_train.npy',down_sampled_train)
