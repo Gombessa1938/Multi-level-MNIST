@@ -24,7 +24,7 @@ class Large(torch.nn.Module):
     
     
 class medium(torch.nn.Module):
-  def __init__(self,coarse_size=1024+256,l=[160,64,32,16]):
+  def __init__(self,coarse_size=1024+256,l=[640,64,32,16]):
     super(medium,self).__init__()
     self.linears = nn.ModuleList()
     self.linears.append(nn.Linear(coarse_size,coarse_size//2,bias=False))

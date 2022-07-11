@@ -55,7 +55,9 @@ for i in tqdm(range(60000)):
   img_c = img_c.astype('float32')
   down_sampled_train_small[i] = torch.from_numpy(img_c) 
   
-
+# img_small = down_sampled_train_small[0]
+# plt.imshow(img_small)
+# plt.show()
   
 difference_train_medium = torch.zeros(60000,32,32)
 for i in tqdm(range(60000)):
@@ -81,8 +83,8 @@ for i in tqdm(range(60000)):
   concat_train_large[i] = torch.cat((difference_train[i].reshape(64*64,),concat_train_medium[i].reshape(32*32+16*16,))) 
 
 
-np.save('mnist_concat_train_medium_64.npy',concat_train_medium)
-np.save('mnist_down_sampled_train_small_64',down_sampled_train_small)
-np.save('mnist_concat_train_large_64.npy',concat_train_large)
+# np.save('mnist_concat_train_medium_64.npy',concat_train_medium)
+# np.save('mnist_down_sampled_train_small_64',down_sampled_train_small)
+# np.save('mnist_concat_train_large_64.npy',concat_train_large)
 
 
