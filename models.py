@@ -15,7 +15,7 @@ class Large(torch.nn.Module):
       self.linears.append(nn.Linear(l[i],l[i+1],bias=False))
     self.linears.append(nn.Linear(l[-1],10,bias=False))
     self.ReLU = nn.ReLU()
-    self.sm = nn.Softmax()
+    self.sm = nn.LogSoftmax(dim=1)#nn.Softmax()
   def forward(self,x):
     for layers in self.linears:
       x = self.ReLU(layers(x))
@@ -32,7 +32,7 @@ class medium(torch.nn.Module):
       self.linears.append(nn.Linear(l[i],l[i+1],bias=False))
     self.linears.append(nn.Linear(l[-1],10,bias=False))
     self.ReLU = nn.ReLU()
-    self.sm = nn.Softmax() 
+    self.sm = nn.LogSoftmax(dim=1)#nn.Softmax()
   def forward(self,x):
     for layers in self.linears:
       x = self.ReLU(layers(x))
@@ -49,7 +49,7 @@ class small(torch.nn.Module):
       self.linears.append(nn.Linear(l[i],l[i+1],bias=False))
     self.linears.append(nn.Linear(l[-1],10,bias=False))
     self.ReLU = nn.ReLU()
-    self.sm = nn.Softmax()
+    self.sm = nn.LogSoftmax(dim=1)#nn.Softmax()
   def forward(self,x):
     for layers in self.linears:
       x = self.ReLU(layers(x))

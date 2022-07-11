@@ -26,6 +26,11 @@ def train(input_model,loss,optimizer,datasets,label,epoch,batch_size,device,loss
         model.zero_grad()
         output = model(X)
         cat = torch.argmax(output,dim=1)
+        print(Y)
+        print(output.shape)
+        print(Y.shape)
+        print(cat.shape)
+        
         accuracy=(cat==Y).float().mean()
         loss = loss_function(output,Y)
         loss = loss.mean()

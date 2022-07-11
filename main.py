@@ -18,7 +18,6 @@ label = mnist_trainset.targets
 
 down_sampled_train_small = torch.from_numpy(np.load('/Users/joe/Documents/mnist_branch/mnist_down_sampled_train_small.npy'))
 concat_train_medium = torch.from_numpy(np.load('/Users/joe/Documents/mnist_branch/mnist_concat_train_medium.npy'))
-print(concat_train_medium.shape)
 concat_train_large = torch.from_numpy(np.load('/Users/joe/Documents/mnist_branch/mnist_concat_train_large.npy'))
 device = config.device
 loss = config.loss
@@ -35,75 +34,167 @@ def cycle_train(epoch1,epoch2,epoch3,cycle,loss,res):
     position = []
     l,r = 0,50
     for i in range(cycle):
-        load_model_weight(model1,model2,small_to_big=False)
+        load_model_weight(model1,model2,small_to_big=False,first=True)
         optim = torch.optim.Adam(model1.parameters(), lr=0.0001)
-        res = train(model1,loss,optim,down_sampled_train_small,label,epoch1,bs,device,res)
+        res = train(model1,loss,optim,down_sampled_train_small,label,epoch1,1,device,res)
         position  = np.arange(l,r)
         plt.plot(position,res,'b')
         l +=50
         r +=50
         
         
-        model2 = medium()
-        load_model_weight(model1,model2,small_to_big=True,first = True)
-        optim = torch.optim.Adam(model2.parameters(), lr=0.0001)
-        res = train(model2,loss,optim,concat_train_medium,label,epoch2,bs,device,res)
-        position = np.arange(l,r)
-        plt.plot(position,res,'g')
-        l +=50
-        r +=50
+        # model2 = medium()
+        # load_model_weight(model1,model2,small_to_big=True,first = True)
+        # optim = torch.optim.Adam(model2.parameters(), lr=0.0001)
+        # res = train(model2,loss,optim,concat_train_medium,label,epoch2,bs,device,res)
+        # position = np.arange(l,r)
+        # plt.plot(position,res,'g')
+        # l +=50
+        # r +=50
         
-        model3 = Large()
-        load_model_weight(model2,model3,small_to_big=True,first = True)
-        optim = torch.optim.Adam(model2.parameters(), lr=0.0001)
-        res = train(model3,loss,optim,concat_train_large,label,epoch2,bs,device,res)
+        # model3 = Large()
+        # load_model_weight(model2,model3,small_to_big=True,first = True)
+        # optim = torch.optim.Adam(model2.parameters(), lr=0.0001)
+        # res = train(model3,loss,optim,concat_train_large,label,epoch2,bs,device,res)
 
-        position = np.arange(l,r)
-        plt.plot(position,res,'r')
+        # position = np.arange(l,r)
+        # plt.plot(position,res,'r')
         
-        l +=50
-        r +=50
+        # l +=50
+        # r +=50
 
-        model2 = medium()
-        load_model_weight(model3,model2,small_to_big=False,first = True)
-        optim = torch.optim.Adam(model2.parameters(), lr=0.0001)
-        res = train(model2,loss,optim,concat_train_medium,label,epoch2,bs,device,res)
+        # model2 = medium()
+        # load_model_weight(model3,model2,small_to_big=False,first = True)
+        # optim = torch.optim.Adam(model2.parameters(), lr=0.0001)
+        # res = train(model2,loss,optim,concat_train_medium,label,epoch2,bs,device,res)
 
-        position = np.arange(l,r)
-        plt.plot(position,res,'g')
-        l +=50
-        r +=50
+        # position = np.arange(l,r)
+        # plt.plot(position,res,'g')
+        # l +=50
+        # r +=50
         
         
-        model1 = small()
-        load_model_weight(model2,model1,small_to_big=False,first= True)
-        optim = torch.optim.Adam(model1.parameters(), lr=0.0001)
-        res = train(model1,loss,optim,down_sampled_train_small,label,epoch3,bs,device,res)
+        # model1 = small()
+        # load_model_weight(model2,model1,small_to_big=False)
+        # optim = torch.optim.Adam(model1.parameters(), lr=0.0001)
+        # res = train(model1,loss,optim,down_sampled_train_small,label,epoch3,bs,device,res)
         
-        position = np.arange(l,r)
-        plt.plot(position,res,'b')        
-        l +=50
-        r +=50
+        # position = np.arange(l,r)
+        # plt.plot(position,res,'b')        
+        # l +=50
+        # r +=50
         
-        model2 = medium()
-        load_model_weight(model1,model2,small_to_big=True,first = True)
-        optim = torch.optim.Adam(model2.parameters(), lr=0.0001)
-        res = train(model2,loss,optim,concat_train_medium,label,epoch2,bs,device,res)
-        position = np.arange(l,r)
-        plt.plot(position,res,'g')
-        l +=50
-        r +=50
-        
-        model3 = Large()
-        load_model_weight(model2,model3,small_to_big=True,first = True)
-        optim = torch.optim.Adam(model2.parameters(), lr=0.0001)
-        res = train(model3,loss,optim,concat_train_large,label,epoch2,bs,device,res)
+        # model2 = medium()
+        # load_model_weight(model1,model2,small_to_big=True)
+        # optim = torch.optim.Adam(model2.parameters(), lr=0.0001)
+        # res = train(model2,loss,optim,concat_train_medium,label,epoch2,bs,device,res)
+        # position = np.arange(l,r)
+        # plt.plot(position,res,'g')
+        # l +=50
+        # r +=50
 
-        position = np.arange(l,r)
-        plt.plot(position,res,'r')
+        # # model1 = small()
+        # # load_model_weight(model2,model1,small_to_big=False)
+        # # optim = torch.optim.Adam(model1.parameters(), lr=0.0001)
+        # # res = train(model1,loss,optim,down_sampled_train_small,label,epoch3,bs,device,res)
         
-        l +=50
-        r +=50
+        # # position = np.arange(l,r)
+        # # plt.plot(position,res,'b')        
+        # # l +=50
+        # # r +=50
+        
+        # # model2 = medium()
+        # # load_model_weight(model1,model2,small_to_big=True)
+        # # optim = torch.optim.Adam(model2.parameters(), lr=0.0001)
+        # # res = train(model2,loss,optim,concat_train_medium,label,epoch2,bs,device,res)
+        # # position = np.arange(l,r)
+        # # plt.plot(position,res,'g')
+        # # l +=50
+        # # r +=50
+ 
+        # model3 = Large()
+        # load_model_weight(model2,model3,small_to_big=True,first = True)
+        # optim = torch.optim.Adam(model2.parameters(), lr=0.0001)
+        # res = train(model3,loss,optim,concat_train_large,label,epoch2,bs,device,res)
+
+        # position = np.arange(l,r)
+        # plt.plot(position,res,'r')
+        
+        # l +=50
+        # r +=50
+        
+        # model2 = medium()
+        # load_model_weight(model1,model2,small_to_big=True)
+        # optim = torch.optim.Adam(model2.parameters(), lr=0.0001)
+        # res = train(model2,loss,optim,concat_train_medium,label,epoch2,bs,device,res)
+        # position = np.arange(l,r)
+        # plt.plot(position,res,'g')
+        # l +=50
+        # r +=50
+
+        # model1 = small()
+        # load_model_weight(model2,model1,small_to_big=False)
+        # optim = torch.optim.Adam(model1.parameters(), lr=0.0001)
+        # res = train(model1,loss,optim,down_sampled_train_small,label,epoch3,bs,device,res)
+        
+        # position = np.arange(l,r)
+        # plt.plot(position,res,'b')        
+        # l +=50
+        # r +=50
+
+        # model3 = Large()
+        # load_model_weight(model2,model3,small_to_big=True,first = True)
+        # optim = torch.optim.Adam(model2.parameters(), lr=0.0001)
+        # res = train(model3,loss,optim,concat_train_large,label,epoch2,bs,device,res)
+
+        # position = np.arange(l,r)
+        # plt.plot(position,res,'r')
+        
+        # l +=50
+        # r +=50
+        
+        # model2 = medium()
+        # load_model_weight(model1,model2,small_to_big=True)
+        # optim = torch.optim.Adam(model2.parameters(), lr=0.0001)
+        # res = train(model2,loss,optim,concat_train_medium,label,epoch2,bs,device,res)
+        # position = np.arange(l,r)
+        # plt.plot(position,res,'g')
+        # l +=50
+        # r +=50
+
+ 
+        # model3 = Large()
+        # load_model_weight(model2,model3,small_to_big=True)
+        # optim = torch.optim.Adam(model2.parameters(), lr=0.0001)
+        # res = train(model3,loss,optim,concat_train_large,label,epoch2,bs,device,res)
+
+        # position = np.arange(l,r)
+        # plt.plot(position,res,'r')
+        
+        # l +=50
+        # r +=50
+        
+        # model2 = medium()
+        # load_model_weight(model1,model2,small_to_big=True)
+        # optim = torch.optim.Adam(model2.parameters(), lr=0.0001)
+        # res = train(model2,loss,optim,concat_train_medium,label,epoch2,bs,device,res)
+        # position = np.arange(l,r)
+        # plt.plot(position,res,'g')
+        # l +=50
+        # r +=50
+ 
+        # model3 = Large()
+        # load_model_weight(model2,model3,small_to_big=True)
+        # optim = torch.optim.Adam(model2.parameters(), lr=0.0001)
+        # res = train(model3,loss,optim,concat_train_large,label,epoch2,bs,device,res)
+
+        # position = np.arange(l,r)
+        # plt.plot(position,res,'r')
+        
+        # l +=50
+        # r +=50
+        
+    
     plt.ylabel('accuracy')
     plt.xlabel('iterations')
     plt.plot(0,0,'b',label='small network')
