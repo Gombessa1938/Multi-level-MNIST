@@ -28,12 +28,6 @@ def cycle_train(epoch1,epoch2,epoch3,cycle,loss,res):
     model2 = medium()
     model3 = Large()
     
-    # print(model1)
-    # print('==='*10)
-    # print(model2)
-    # print('===='*10)
-    # print(model3)
-    
     bs = config.batch_size
     position = []
     l,r = 0,40
@@ -51,7 +45,7 @@ def cycle_train(epoch1,epoch2,epoch3,cycle,loss,res):
         
         model2 = medium()
         load_model_weight(model1,model2,small_to_big=True,first = True)
-        optim = torch.optim.Adam(model2.parameters(), lr=0.0005)
+        optim = torch.optim.Adam(model2.parameters(), lr=0.001)
         res_ = train(model2,loss,optim,concat_train_medium,label,epoch2,bs,device,res)
         res += res_
         position = np.arange(l,r)
@@ -69,8 +63,6 @@ def cycle_train(epoch1,epoch2,epoch3,cycle,loss,res):
 
         position = np.arange(l,r)
   
-        
-
   
         
         # model1 = small()
@@ -221,7 +213,7 @@ result = [0]*80
 result = np.array(result).astype('float64')
 
 for i in trange(10):
-    out = cycle_train(40,20,20,cycle=1,loss=loss,res =result) 
+    out = cycle_train(0,0,80,cycle=1,loss=loss,res =result) 
     out = np.array(out)
     result += out
     

@@ -17,7 +17,6 @@ for i in tqdm(range(60000)):
 
 #data = np.load('/Users/joe/Documents/llnl_branch/llnl.npz')
 data = mnist_upsample.numpy()
-print(data.shape)
 
 #making downsampled image
 down_sampled_train = torch.zeros(60000,32,32)
@@ -31,21 +30,21 @@ for i in tqdm(range(60000)):
 # plt.imshow(img_small)
 # plt.show()
 #making difference image
-difference_train = torch.zeros(60000,64,64)
+difference_train = torch.zeros(60000,48,64)
 for i in tqdm(range(60000)):
   first = data[i].reshape(64,64)
   small = down_sampled_train[i].numpy()
   up_sample = np.array(Image.fromarray(small).resize((64, 64), Image.BICUBIC)) #upsample image
   first = first.astype('float32')
   up_sample = up_sample.astype('float32')
-  difference_train[i] = torch.from_numpy(first)# - up_sample)
-
-#concat difference image and coarse iamge 
-concat_train = torch.zeros(60000,64*64 + 32*32)
-for i in tqdm(range(60000)):
-  concat_train[i] = torch.cat((difference_train[i].reshape(64*64,),\
-    down_sampled_train[i].reshape(32*32,)))
+  diff = first - up_sample
+  difference_train[i]  = torch.from_numpy(np.array(Image.fromarray(diff).resize((64,48),Image.BICUBIC)))
   
+#concat difference image and coarse iamge 
+concat_train = torch.zeros(60000,64*48 + 32*32)
+for i in tqdm(range(60000)):
+  concat_train[i] = torch.cat((difference_train[i].reshape(64*48,),\
+    down_sampled_train[i].reshape(32*32,)))
   
   
 #-----------------------------------------
@@ -60,29 +59,29 @@ for i in tqdm(range(60000)):
 # plt.imshow(img_small)
 # plt.show()
   
-difference_train_medium = torch.zeros(60000,32,32)
+difference_train_medium = torch.zeros(60000,24,32)
 for i in tqdm(range(60000)):
   #first = data[i].reshape(64,64)
   small = down_sampled_train_small[i].numpy()
   up_sample = np.array(Image.fromarray(small).resize((32, 32), Image.LANCZOS)) #upsample image
   first = img_c_#first.astype('float32')
   up_sample = up_sample.astype('float32')
-  difference_train_medium[i] = torch.from_numpy(down_sampled_train[i].numpy())# - up_sample)
+  diff = down_sampled_train[i].numpy() - up_sample
+  difference_train_medium[i]  = torch.from_numpy(np.array(Image.fromarray(diff).resize((32,24), Image.BICUBIC)))
 
-  
-concat_train_medium = torch.zeros(60000,32*32 + 16*16)
+     
+concat_train_medium = torch.zeros(60000,32*24 + 16*16)
 for i in tqdm(range(60000)):
-  concat_train_medium[i] = torch.cat((difference_train_medium[i].reshape(32*32,),\
+  concat_train_medium[i] = torch.cat((difference_train_medium[i].reshape(32*24,),\
     down_sampled_train_small[i].reshape(16*16,))) 
-  
-  
-concat_train_large = torch.zeros(60000,64*64+32*32+16*16)
+ 
+concat_train_large = torch.zeros(60000,64*48+32*24+16*16)
 for i in tqdm(range(60000)):
-  concat_train_large[i] = torch.cat((difference_train[i].reshape(64*64,),concat_train_medium[i].reshape(32*32+16*16,))) 
+  concat_train_large[i] = torch.cat((difference_train[i].reshape(64*48,),concat_train_medium[i].reshape(32*24+16*16,))) 
 
 
-np.save('mnist_concat_train_medium_64_no_diff.npy',concat_train_medium)
-np.save('mnist_down_sampled_train_small_64_no_diff.npy',down_sampled_train_small)
-np.save('mnist_concat_train_large_64_no_diff.npy',concat_train_large)
+np.save('mnist_concat_train_medium_64_rectangle.npy',concat_train_medium)
+np.save('mnist_down_sampled_train_small_64_rectangle.npy',down_sampled_train_small)
+np.save('mnist_concat_train_large_64_rectangle.npy',concat_train_large)
 
 
