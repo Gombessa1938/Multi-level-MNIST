@@ -29,25 +29,25 @@ def cycle_train(epoch1,epoch2,epoch3,cycle,loss,res):
     model3 = Large()
     bs = 128
     position = []
-    l,r = 0,50
+    l,r = 0,35
     for i in range(cycle):
         load_model_weight(model1,model2,small_to_big=False)
-        optim = torch.optim.Adam(model1.parameters(), lr=0.0001)
+        optim = torch.optim.Adam(model1.parameters(), lr=0.001)
         res = train(model1,loss,optim,down_sampled_train_small,label,epoch1,bs,device,res)
         position  = np.arange(l,r)
         plt.plot(position,res,'b')
-        l +=50
-        r +=50
+        l  = r
+        r +=10
         
         
         model2 = medium()
         load_model_weight(model1,model2,small_to_big=True,first = True)
-        optim = torch.optim.Adam(model2.parameters(), lr=0.0001)
+        optim = torch.optim.Adam(model2.parameters(), lr=0.001)
         res = train(model2,loss,optim,concat_train_medium,label,epoch2,bs,device,res)
         position = np.arange(l,r)
         plt.plot(position,res,'g')
-        l +=50
-        r +=50
+        l = r
+        r +=10
         
         model3 = Large()
         load_model_weight(model2,model3,small_to_big=True,first = True)
@@ -57,27 +57,26 @@ def cycle_train(epoch1,epoch2,epoch3,cycle,loss,res):
         position = np.arange(l,r)
         plt.plot(position,res,'r')
         
-        l +=50
-        r +=50
 
-        model2 = medium()
-        load_model_weight(model3,model2,small_to_big=False,first = True)
-        optim = torch.optim.Adam(model2.parameters(), lr=0.0001)
-        res = train(model2,loss,optim,concat_train_medium,label,epoch2,bs,device,res)
 
-        position = np.arange(l,r)
-        plt.plot(position,res,'g')
-        l +=50
-        r +=50
-        model1 = small()
-        load_model_weight(model2,model1,small_to_big=False,first= True)
-        optim = torch.optim.Adam(model1.parameters(), lr=0.0001)
-        res = train(model1,loss,optim,down_sampled_train_small,label,epoch3,bs,device,res)
+        # model2 = medium()
+        # load_model_weight(model3,model2,small_to_big=False,first = True)
+        # optim = torch.optim.Adam(model2.parameters(), lr=0.0001)
+        # res = train(model2,loss,optim,concat_train_medium,label,epoch2,bs,device,res)
+
+        # position = np.arange(l,r)
+        # plt.plot(position,res,'g')
+        # l +=50
+        # r +=50
+        # model1 = small()
+        # load_model_weight(model2,model1,small_to_big=False,first= True)
+        # optim = torch.optim.Adam(model1.parameters(), lr=0.0001)
+        # res = train(model1,loss,optim,down_sampled_train_small,label,epoch3,bs,device,res)
         
-        position = np.arange(l,r)
-        plt.plot(position,res,'b')        
-        l +=50
-        r +=50
+        # position = np.arange(l,r)
+        # plt.plot(position,res,'b')        
+        # l +=50
+        # r +=50
     plt.ylabel('loss')
     plt.xlabel('iterations')
     plt.plot(0,0,'b',label='small network')
@@ -88,5 +87,5 @@ def cycle_train(epoch1,epoch2,epoch3,cycle,loss,res):
     return res
       
 result = []
-out = cycle_train(50,50,50,cycle=2,loss=loss,res =result)
+out = cycle_train(35,10,10,cycle=1,loss=loss,res =result)
 
