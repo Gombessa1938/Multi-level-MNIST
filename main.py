@@ -209,11 +209,11 @@ def cycle_train(epoch1,epoch2,epoch3,cycle,loss,res):
     # plt.show()
     return res
       
-result = [0]*80
+result = [0]*2000
 result = np.array(result).astype('float64')
 
 for i in trange(10):
-    out = cycle_train(0,0,80,cycle=1,loss=loss,res =result) 
+    out = cycle_train(1000,1000,0,cycle=1,loss=loss,res =result) 
     out = np.array(out)
     result += out
     
