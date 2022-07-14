@@ -2,6 +2,7 @@ from pyexpat import model
 import numpy as np 
 import torch
 from matplotlib import pyplot as plt
+from tqdm import trange
 torch.manual_seed(42)
 def train(input_model,loss,optimizer,datasets,label,epoch,batch_size,device,losses):
     model = input_model
@@ -19,7 +20,7 @@ def train(input_model,loss,optimizer,datasets,label,epoch,batch_size,device,loss
     else:
         flat_size = data.shape[1]
     
-    for i in range(epoch):
+    for i in trange(epoch):
         samp = np.random.randint(0, data.shape[0], size=(batch_size)) 
         X = data[samp].reshape((-1, flat_size))
         Y = label[samp]

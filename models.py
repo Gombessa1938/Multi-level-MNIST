@@ -7,7 +7,7 @@ layer_large,layer_medium,layer_small = make_layer_input_list(config)
 
 
 class Large(torch.nn.Module):
-  def __init__(self,image_large_size=32*32+16*16+16*16,coarse_size=1024,l=layer_large):
+  def __init__(self,image_large_size=64*64+32*32+16*16,coarse_size=1024,l=layer_large):
     '''
 
     '''
@@ -27,7 +27,7 @@ class Large(torch.nn.Module):
     
     
 class medium(torch.nn.Module):
-  def __init__(self,coarse_size=16*16+16*16,l=[256,64,32,16]):
+  def __init__(self,coarse_size=32*32+16*16,l=[640,64,32,16]):
     '''
 
     '''
