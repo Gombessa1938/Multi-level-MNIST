@@ -15,12 +15,15 @@ from tqdm import trange
 #data loading
 data = np.load('/Users/joe/Documents/llnl_branch/llnl.npz')
 label = torch.from_numpy(data['Q'].astype('float32'))
-down_sampled_train_small = torch.from_numpy(np.load('/Users/joe/Documents/llnl_branch/down_sampled_train_small.npy'))
-concat_train_medium = torch.from_numpy(np.load('/Users/joe/Documents/llnl_branch/concat_train_medium.npy'))
-print(concat_train_medium.shape)
-concat_train_large = torch.from_numpy(np.load('/Users/joe/Documents/llnl_branch/concat_train_large.npy'))
+down_sampled_train_small = torch.from_numpy(np.load('/Users/joe/Documents/llnl_3/down_sampled_train_small_64_no_diff.npy'))
+concat_train_medium = torch.from_numpy(np.load('/Users/joe/Documents/llnl_3/concat_train_medium_64_no_diff.npy'))
+concat_train_large = torch.from_numpy(np.load('/Users/joe/Documents/llnl_3/concat_train_large_64_no_diff.npy'))
 device = config.device
 loss = config.loss
+
+# large = concat_train_large[0][64*64+32*32:64*64+32*32+16*16].reshape(16,16).numpy()
+# plt.imshow(large)
+# plt.show()
 
 def cycle_train(epoch1,epoch2,epoch3,cycle,loss,res):
     '''
@@ -36,7 +39,7 @@ def cycle_train(epoch1,epoch2,epoch3,cycle,loss,res):
     
     res = []
     for i in range(cycle):
-        load_model_weight(model1,model2,small_to_big=False)
+        #load_model_weight(model1,model2,small_to_big=False)
         optim = torch.optim.Adam(model1.parameters(), lr=0.001)
         res_ = train(model1,loss,optim,down_sampled_train_small,label,epoch1,bs,device,res)
         res += res_
@@ -45,7 +48,7 @@ def cycle_train(epoch1,epoch2,epoch3,cycle,loss,res):
         # l  = r
         # r +=10
         
-        
+    
         model2 = medium()
         load_model_weight(model1,model2,small_to_big=True,first = True)
         optim = torch.optim.Adam(model2.parameters(), lr=0.001)
@@ -58,7 +61,7 @@ def cycle_train(epoch1,epoch2,epoch3,cycle,loss,res):
         
         model3 = Large()
         load_model_weight(model2,model3,small_to_big=True,first = True)
-        optim = torch.optim.Adam(model2.parameters(), lr=0.0001)
+        optim = torch.optim.Adam(model3.parameters(), lr=0.0001)
         res_ = train(model3,loss,optim,concat_train_large,label,epoch3,bs,device,res)
         res += res_
         # position = np.arange(l,r)
@@ -68,26 +71,28 @@ def cycle_train(epoch1,epoch2,epoch3,cycle,loss,res):
 
 ep1 = 30
 ep2 = 20
-ep3 = 100
+ep3 = 10
 result = [0]*(ep1+ ep2+ep3)
 result = np.array(result).astype('float64')
 
+from timeit import default_timer as timer
 
+start = timer()
 for i in trange(10):
     out = cycle_train(ep1,ep2,ep3,cycle=1,loss=loss,res =result) 
     out = np.array(out)
     result += out
-    
+end = timer()
+time_diff = end - start
+
 result = result/10
 small_plot = result[0:ep1]
 position  = np.arange(0,ep1)
 plt.plot(position,small_plot,'b')
 
-
 medium_plot = result[ep1:ep1+ep2]
 position  = np.arange(ep1,ep1+ep2)
 plt.plot(position,medium_plot,'g')
-
 
 large_plot = result[ep1+ep2:ep1+ep2+ep3]
 position  = np.arange(ep1+ep2,ep1+ep2+ep3)
@@ -98,6 +103,8 @@ plt.xlabel('iterations')
 plt.plot(0,0,'b',label='small network')
 plt.plot(0,0,'g', label = 'medium network')
 plt.plot(0,0,'r',label='large network')
+plt.plot(0,0,'y',label = 'time:' + str(time_diff))
+plt.plot(0,0,'y',label = f' min reached : {np.min(result)}')
 plt.legend(loc='upper right')
 plt.show()
 
