@@ -49,6 +49,7 @@ for i in tqdm(range(50000)):
   up_sample = np.array(Image.fromarray(small).resize((16, 16), Image.LANCZOS)) #upsample image
   first = first.astype('float32')
   up_sample = up_sample.astype('float32')
+  difference_train_medium[i] = torch.from_numpy(first - up_sample)
   
 concat_train_medium = torch.zeros(50000,16*16 + 8*8)
 for i in tqdm(range(50000)):
@@ -62,5 +63,5 @@ for i in tqdm(range(50000)):
 
 
 np.save('concat_train_medium.npy',concat_train_medium)
-np.save('down_sampled_train_small',down_sampled_train_small)
+np.save('down_sampled_train_small.npy',down_sampled_train_small)
 np.save('concat_train_large.npy',concat_train_large)
