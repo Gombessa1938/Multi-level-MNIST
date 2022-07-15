@@ -15,7 +15,7 @@ loss = nn.NLLLoss()#nn.CrossEntropyLoss()#nn.MSELoss()
 diff_dim_x = 32
 diff_dim_y = 32
 
-down_sampled_train_small = torch.from_numpy(np.load('/Users/joe/Documents/mnist_data_64/mnist_down_sampled_train_small_64_no_diff.npy'))
-concat_train_medium = torch.from_numpy(np.load('/Users/joe/Documents/mnist_data_64/mnist_concat_train_medium_64_no_diff.npy'))
-concat_train_large = torch.from_numpy(np.load('/Users/joe/Documents/mnist_data_64/mnist_concat_train_large_64_no_diff.npy'))
+down_sampled_train_small = torch.from_numpy(np.load('/Users/joe/Documents/mnist_branch/mnist_down_sampled_train_small_64_ds_diff_no_diff.npy'))
+concat_train_medium = torch.from_numpy(np.load('/Users/joe/Documents/mnist_branch/mnist_concat_train_medium_64_ds_diff_no_diff.npy'))
+concat_train_large = torch.from_numpy(np.load('/Users/joe/Documents/mnist_branch/mnist_concat_train_large_64_ds_diff_no_diff.npy'))
 mnist_trainset = datasets.MNIST(root='/Users/joe/Documents/mnist_data/data', train=True, download=True, transform=tf.ToTensor())

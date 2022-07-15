@@ -20,6 +20,14 @@ device = config.device
 loss = config.loss
 torch.manual_seed(42)
 
+# k = 1100
+# plt.imshow(concat_train_large[k][32*32+16*16:32*32+16*16+8*8].reshape(8,8).numpy())
+# plt.show()
+# plt.imshow(concat_train_large[k][32*32:32*32+16*16].reshape(16,16).numpy())
+# plt.show()
+# plt.imshow(concat_train_large[k][0:32*32].reshape(32,32).numpy())
+# plt.show()
+
 
 def cycle_train(epoch1,epoch2,epoch3,cycle,loss,res):
     '''
@@ -27,8 +35,11 @@ def cycle_train(epoch1,epoch2,epoch3,cycle,loss,res):
     small network -> large network -> small network 
     '''		
     model1 = small()
+    print(model1)
     model2 = medium()
+    print(model2)
     model3 = Large()
+    print(model3)
     bs = 128
     position = []
     l,r = 0,35
@@ -36,7 +47,7 @@ def cycle_train(epoch1,epoch2,epoch3,cycle,loss,res):
     res = []
     for i in range(cycle):
         #load_model_weight(model1,model2,small_to_big=False)
-        optim = torch.optim.Adam(model1.parameters(), lr=0.0001)
+        optim = torch.optim.Adam(model1.parameters(), lr=0.001)
         res_ = train(model1,loss,optim,down_sampled_train_small,label,epoch1,bs,device,res)
         res += res_
         # position  = np.arange(l,r)
@@ -47,7 +58,7 @@ def cycle_train(epoch1,epoch2,epoch3,cycle,loss,res):
     
         model2 = medium()
         load_model_weight(model1,model2,small_to_big=True,first = True)
-        optim = torch.optim.Adam(model2.parameters(), lr=0.0001)
+        optim = torch.optim.Adam(model2.parameters(), lr=0.0005)
         res_ = train(model2,loss,optim,concat_train_medium,label,epoch2,bs,device,res)
         res += res_
         # position = np.arange(l,r)
@@ -56,8 +67,8 @@ def cycle_train(epoch1,epoch2,epoch3,cycle,loss,res):
         # r +=10
         
         model3 = Large()
-        #load_model_weight(model2,model3,small_to_big=True,first = True)
-        optim = torch.optim.Adam(model3.parameters(), lr=0.00001)
+        load_model_weight(model2,model3,small_to_big=True,first = True)
+        optim = torch.optim.Adam(model3.parameters(), lr=0.00005)
         res_ = train(model3,loss,optim,concat_train_large,label,epoch3,bs,device,res)
         res += res_
         # position = np.arange(l,r)
@@ -65,23 +76,23 @@ def cycle_train(epoch1,epoch2,epoch3,cycle,loss,res):
 
     return res
 
-ep1 = 0
-ep2 = 500
-ep3 = 0
+ep1 = 150
+ep2 = 70
+ep3 = 30
 result = [0]*(ep1+ ep2+ep3)
 result = np.array(result).astype('float64')
 
 from timeit import default_timer as timer
 
 start = timer()
-for i in range(1):
+for i in range(10):
     out = cycle_train(ep1,ep2,ep3,cycle=1,loss=loss,res =result) 
     out = np.array(out)
     result += out
 end = timer()
 time_diff = end - start
 
-result = result
+result = result/10
 small_plot = result[0:ep1]
 position  = np.arange(0,ep1)
 plt.plot(position,small_plot,'b')
@@ -99,7 +110,7 @@ plt.xlabel('iterations')
 plt.plot(0,0,'b',label='small network')
 plt.plot(0,0,'g', label = 'medium network')
 plt.plot(0,0,'r',label='large network')
-plt.plot(0,0,'y',label = 'time:' + str(time_diff))
+plt.plot(0,0,'y',label = 'time:' + str(time_diff/10))
 plt.plot(0,0,'y',label = f' max reached : {np.max(result)}')
 plt.legend(loc='best')
 plt.show()

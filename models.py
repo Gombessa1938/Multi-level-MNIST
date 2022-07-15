@@ -7,13 +7,13 @@ layer_large,layer_medium,layer_small = make_layer_input_list(config)
 
 
 class Large(torch.nn.Module):
-  def __init__(self,image_large_size=64*64+32*32+16*16,coarse_size=1024,l=layer_large):
+  def __init__(self,image_large_size=32*32+16*16+8*8,l=[800,512,256,64]):
     '''
 
     '''
     super(Large,self).__init__()
     self.linears = nn.ModuleList()
-    self.linears.append(nn.Linear(image_large_size,coarse_size,bias=False))
+    self.linears.append(nn.Linear(image_large_size,l[0],bias=False))
     for i in range(len(l)-1):
       self.linears.append(nn.Linear(l[i],l[i+1],bias=False))
     self.linears.append(nn.Linear(l[-1],10,bias=False))
@@ -27,7 +27,7 @@ class Large(torch.nn.Module):
     
     
 class medium(torch.nn.Module):
-  def __init__(self,coarse_size=32*32+16*16,l=[640,64,32,16]):
+  def __init__(self,coarse_size=16*16+8*8,l=[160,64,32,16]):
     '''
 
     '''
@@ -47,7 +47,7 @@ class medium(torch.nn.Module):
   
   
 class small(torch.nn.Module):
-  def __init__(self,coarse_size=256,l=[128,32,16,16]): 
+  def __init__(self,coarse_size=64,l=[32,32,16,16]): 
     '''
 
     '''
