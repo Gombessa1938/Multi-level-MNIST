@@ -35,15 +35,11 @@ def cycle_train(epoch1,epoch2,epoch3,cycle,loss,res):
     small network -> large network -> small network 
     '''		
     model1 = small()
-    print(model1)
     model2 = medium()
-    print(model2)
     model3 = Large()
-    print(model3)
     bs = 128
     position = []
     l,r = 0,35
-    print(b)
     
     res = []
     for i in range(cycle):
