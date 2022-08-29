@@ -43,6 +43,7 @@ def cycle_train(epoch1,epoch2,epoch3,cycle,loss,res):
     bs = 128
     position = []
     l,r = 0,35
+    print(b)
     
     res = []
     for i in range(cycle):
@@ -68,7 +69,7 @@ def cycle_train(epoch1,epoch2,epoch3,cycle,loss,res):
         
         model3 = Large()
         load_model_weight(model2,model3,small_to_big=True,first = True)
-        optim = torch.optim.Adam(model3.parameters(), lr=0.00005)
+        optim = torch.optim.Adam(model3.parameters(), lr=0.0002)
         res_ = train(model3,loss,optim,concat_train_large,label,epoch3,bs,device,res)
         res += res_
         # position = np.arange(l,r)
@@ -76,9 +77,9 @@ def cycle_train(epoch1,epoch2,epoch3,cycle,loss,res):
 
     return res
 
-ep1 = 150
-ep2 = 70
-ep3 = 30
+ep1 = 500
+ep2 = 300
+ep3 = 200
 result = [0]*(ep1+ ep2+ep3)
 result = np.array(result).astype('float64')
 
