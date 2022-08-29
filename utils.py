@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 torch.manual_seed(42)
+
 def load_model_weight(model1,model2,small_to_big = True,first = False):
 	'''
 	Load layer weight from model1 to model2

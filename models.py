@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 torch.manual_seed(42)
+
 class Large(torch.nn.Module):
   def __init__(self,image_large_size=28*28,coarse_size=14*14,l=[14*14,128,64,16]):
     super(Large,self).__init__()
@@ -20,7 +21,6 @@ class Large(torch.nn.Module):
       else:
         x = self.sm(x)
     return x
-    
     
 class small(torch.nn.Module):
   def __init__(self,coarse_size=14*14,l=[128,64,32,16]):
