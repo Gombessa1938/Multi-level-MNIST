@@ -28,8 +28,23 @@ loss = config.loss
 def cycle_train(epoch1,epoch2,epoch3,cycle,loss,res):
     '''
     complete one training cycle
-    small network -> large network -> small network 
-    '''		
+    small network -> medium network -> large network 
+    
+    for use more than one cycle, you can do things below
+    small network -> medium network -> large network -> medium network ->small network 
+    but this requires some simple modification of the code.
+    
+    Arges:
+        epoch 1: int epoch for small network
+        epoch 2: int epoch for medium network
+        epoch 3: int epoch for large network
+        cycle: int number of time you train the network, defult is 1
+        loss: pytorch loss function
+        res: List list to keep track result.
+    Return:
+        res: List accuracy result.
+        
+    '''	
     model1 = small()
     model2 = medium()
     model3 = Large()
