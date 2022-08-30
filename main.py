@@ -20,7 +20,7 @@ loss = config.loss
 def cycle_train(epoch1,epoch2,epoch3,cycle,loss,res):
     '''
     complete one training cycle
-    small network -> large network -> small network 
+    small network -> large network 
     '''		
     model1 = small()
     model2 = Large()
@@ -44,18 +44,7 @@ def cycle_train(epoch1,epoch2,epoch3,cycle,loss,res):
         
         position = np.arange(l,r)
         plt.plot(position,res,'g')
-        # l +=50
-        # r +=50
 
-        # model1 = small()
-        # load_model_weight(model2,model1,small_to_big=False)
-        # optim = torch.optim.Adam(model1.parameters(), lr=0.0001)
-        # res = train(model1,loss,optim,down_sampled_train,label,epoch3,128,device,res)
-        # position = np.arange(l,r)
-        # plt.plot(position,res,'b')
-        
-        # l +=50
-        # r +=50
     plt.ylabel('loss')
     plt.xlabel('iterations')
     plt.plot(0,0,'b',label='small network')
@@ -70,4 +59,3 @@ def cycle_train(epoch1,epoch2,epoch3,cycle,loss,res):
 result = []
 out = cycle_train(100,200,50,cycle=1,loss=loss,res =result)
 
-#write timing 
