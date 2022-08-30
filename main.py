@@ -83,6 +83,7 @@ from timeit import default_timer as timer
 
 start = timer()
 for i in range(10):
+    print(f'Run number {i}')
     out = cycle_train(ep1,ep2,ep3,cycle=1,loss=loss,res =result) 
     out = np.array(out)
     result += out

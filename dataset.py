@@ -15,7 +15,6 @@ for i in tqdm(range(60000)):
   img_up = img_up.astype('float32')
   mnist_upsample[i] = torch.from_numpy(img_up)
 
-#data = np.load('/Users/joe/Documents/llnl_branch/llnl.npz')
 data = mnist_upsample.numpy()
 #making downsampled image
 down_sampled_train = torch.zeros(60000,16,16)
