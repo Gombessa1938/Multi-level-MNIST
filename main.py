@@ -21,10 +21,6 @@ concat_train_large = torch.from_numpy(np.load('/Users/joe/Documents/llnl_3/conca
 device = config.device
 loss = config.loss
 
-# large = concat_train_large[0][64*64+32*32:64*64+32*32+16*16].reshape(16,16).numpy()
-# plt.imshow(large)
-# plt.show()
-
 def cycle_train(epoch1,epoch2,epoch3,cycle,loss,res):
     '''
     complete one training cycle
