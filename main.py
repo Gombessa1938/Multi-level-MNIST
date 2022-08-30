@@ -51,7 +51,13 @@ def cycle_train(epoch1,epoch2,epoch3,cycle,loss,res):
         optim = torch.optim.Adam(model3.parameters(), lr=0.00001)
         res_ = train(model3,loss,optim,concat_train_large,label,epoch3,bs,device,res)
         res += res_
+<<<<<<< HEAD
         
+=======
+
+        position = np.arange(l,r)
+
+>>>>>>> 8ff7262da4fa05cc2d7feefc32b4757ab968da4d
     return res
 
 ep1 = 100
@@ -88,7 +94,12 @@ plt.xlabel('iterations')
 plt.plot(0,0,'b',label='small network')
 plt.plot(0,0,'g', label = 'medium network')
 plt.plot(0,0,'r',label='large network')
+<<<<<<< HEAD
 plt.plot(0,0,'y',label = 'time:' + str(time_diff))
 plt.plot(0,0,'y',label = f' max reached : {np.max(result)}')
 plt.legend(loc='best')
 plt.show()
+=======
+plt.legend(loc='lower right')
+plt.show()
+>>>>>>> 8ff7262da4fa05cc2d7feefc32b4757ab968da4d
