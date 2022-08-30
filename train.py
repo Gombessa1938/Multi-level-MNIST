@@ -4,7 +4,23 @@ import torch
 from matplotlib import pyplot as plt
 from tqdm import trange
 torch.manual_seed(42)
-def train(input_model,loss,optimizer,datasets,label,epoch,batch_size,device,losses):
+
+
+def train(input_model,loss,optimizer,datasets,label,epoch,batch_size,device):
+    '''
+    This is the train function train the individual network
+    Args:
+        input_model: Pytorch model
+        loss: Pytorch loss function
+        optimizer: Pytorch optimizer function
+        dataset: Torch tensor (input)
+        label: Torch tensor (target)
+        epoch: int
+        batch_size: int
+        device: string ('cpu' or 'cuda')
+    Returns:
+        accurices: List (history of trained accurices)
+    '''
     model = input_model
     loss_function = loss
     optim = optimizer

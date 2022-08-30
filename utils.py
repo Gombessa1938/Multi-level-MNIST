@@ -4,9 +4,17 @@ torch.manual_seed(42)
 
 def load_model_weight(model1,model2,small_to_big = True,first = False):
     '''
-    Load layer weight from model1 to model2
+    This function load layer weight from model1 to model2 automatically
+    Args:
+        model1: Pytorch model
+        model2: Pytorch model
+        small_to_big: Bool
+        if True then model1 is the smaller model, else then model 2 is the 
+        smaller model.
+        first: Bool
+        if first is True then rest network weight will be set to 0, else it keeps the 
+        network weight that are not being effected.
     '''
-    # if small_to_big == True:
     #adding each model layer weight into lists
     model1_weight_list = []
     for _, param in model1.named_parameters():

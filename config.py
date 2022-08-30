@@ -9,9 +9,7 @@ image_full = 64
 image_coarse = 32
 model_layer_level=5
 batch_size = 64
-data_path = " "
-cycle = 2
-loss = nn.NLLLoss()#nn.CrossEntropyLoss()#nn.MSELoss()
+loss = nn.NLLLoss()
 diff_dim_x = 32
 diff_dim_y = 32
 
