@@ -67,16 +67,18 @@ def cycle_train(epoch1,epoch2,epoch3,cycle,loss,res):
 
     return res
 
-ep1 = 500
-ep2 = 300
-ep3 = 200
+ep1 = 100
+ep2 = 100
+ep3 = 100
 result = [0]*(ep1+ ep2+ep3)
 result = np.array(result).astype('float64')
 
 from timeit import default_timer as timer
 
 start = timer()
-for i in range(10):
+run = 1
+start = timer()
+for i in range(run):
     print(f'Run number {i}')
     out = cycle_train(ep1,ep2,ep3,cycle=1,loss=loss,res =result) 
     out = np.array(out)
@@ -84,7 +86,7 @@ for i in range(10):
 end = timer()
 time_diff = end - start
 
-result = result/10
+result = result/run
 small_plot = result[0:ep1]
 position  = np.arange(0,ep1)
 plt.plot(position,small_plot,'b')
@@ -102,7 +104,7 @@ plt.xlabel('iterations')
 plt.plot(0,0,'b',label='small network')
 plt.plot(0,0,'g', label = 'medium network')
 plt.plot(0,0,'r',label='large network')
-plt.plot(0,0,'y',label = 'time:' + str(time_diff/10))
+plt.plot(0,0,'y',label = 'time:' + str(time_diff/run))
 plt.plot(0,0,'y',label = f' max reached : {np.max(result)}')
 plt.legend(loc='best')
 plt.show()
