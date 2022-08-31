@@ -79,4 +79,3 @@ np.save('mnist_concat_train_medium_64_ds_diff_no_diff.npy',concat_train_medium)
 np.save('mnist_down_sampled_train_small_64_ds_diff_no_diff.npy',down_sampled_train_small)
 np.save('mnist_concat_train_large_64_ds_diff_no_diff.npy',concat_train_large)
 
-

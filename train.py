@@ -21,6 +21,7 @@ def train(input_model,loss,optimizer,datasets,label,epoch,batch_size,device):
     Returns:
         accurices: List (history of trained accurices)
     '''
+
     model = input_model
     loss_function = loss
     optim = optimizer
