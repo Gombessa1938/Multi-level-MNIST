@@ -3,7 +3,7 @@
 This repo has multiple branch for different experiment research code. 
 
 ```llnl```, ```llnl_3``` are design for using llnl PDE dataset <br>
-```mnist_full_img``` is for using mnist dataset <br>
+```main``` is for using mnist dataset <br>
 ```mnist_upsample``` is for using mnist dataset but upscaled the image by 2x to create sudo high resolution image <br>
 
 ## LLNL related branch
@@ -20,7 +20,7 @@ the module will average the accuracy and time of 10 run.
 
 ## MNIST related branch
 
-```mnist_full_img``` is more complete branch, which use three network to train, very similar to the ```llnl_3``` branch, which it trains a small network first then load weight to medium network then to large network. 
+```main``` is more complete branch, which use three network to train, very similar to the ```llnl_3``` branch, which it trains a small network first then load weight to medium network then to large network. 
 
 Run
 ```
