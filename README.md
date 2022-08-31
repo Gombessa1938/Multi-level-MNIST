@@ -3,7 +3,7 @@
 This repo has multiple branch for different experiment research code. 
 
 ```llnl```, ```llnl_3``` are design for using llnl PDE dataset <br>
-```main``` is for using mnist dataset <br>
+```main``` is for using mnist dataset, the most refined branch, I would suggest start with this one then explore other branch.<br>
 ```mnist_upsample``` is for using mnist dataset but upscaled the image by 2x to create sudo high resolution image <br>
 
 ## LLNL related branch
